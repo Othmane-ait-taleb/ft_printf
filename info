@@ -1,0 +1,3 @@
+' ' : for "all" and  '+' ovried  ' ' when bouth are used
+'+' : for "all" A `+' character specifying that there should always be asign placed before the number when using signed formats.
+'#' : for   "piuxX
