@@ -5,41 +5,44 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: otait-ta <otait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 11:06:18 by otait-ta          #+#    #+#             */
-/*   Updated: 2022/10/26 14:06:51 by otait-ta         ###   ########.fr       */
+/*   Created: 2022/10/28 09:39:22 by otait-ta          #+#    #+#             */
+/*   Updated: 2022/10/28 13:56:35 by otait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-
-int	ft_printf(const char *str, ...)
+# include "ft_printf.h"
+// abcd %c adf
+int ft_printf(const char *str, ...)
 {
-	va_list	args;
-	char	*temp;
-	char	*s;
-	s_flags	*flags;
+    char *s;
+    va_list args;
+    s_control *controls;
 
-	flags = mall_flags();
-	va_start(args, str);
-	s = (char *)str;
-	while (*s)
-	{
-		temp = s;
-		// its gives the @ of the  char after the first %
-		s = first_arg(s);
-		// we print char one by one untl we find a % and we stop
-		print_norm_char(temp, s - temp, flags);
-		//we store all flags in our stract and we return the adress of the next normal char
-		s = get_flag(s, flags);
-		// now we are in a arg we get the arg to print the parameter depand on it
-		s = print_d_arg(s, args, args);
-		
-
-	}
-}
-
-int	main(int argc, char const *argv[])
-{
-	ft_printf("abcd%ssd");
-	return (0);
+    controls = initialize_controls();
+    s = (char *)str;
+    va_start(args, str);
+    while (*s)
+    {
+        if (*s == '%')
+        {
+            s++;
+            if (*(s) == 'c')
+                s = putchar_count(s,va_arg(args,int),controls);
+            else if (*(s) == 's')
+                s = put_str(s,va_arg(args,char *),controls);
+            else if (*(s) == 'p')
+                s = put_pointer(s,(unsigned long)va_arg(args,void *),controls);
+            else if (*(s) == 'd' || *(s) == 'i')
+                s = put_dicimal(s,va_arg(args,int),controls);
+            else if (*(s) == 'u')
+                s = put_dicimal(s,va_arg(args,unsigned int),controls);
+            else if (*(s) == 'x' || *(s) == 'X')
+                s = put_hexa(s,(long long)va_arg(args,unsigned int),controls);
+            else if (*(s) == '%')
+               s = putchar_count(s,'%',controls);
+        }       
+        else
+           s = putchar_count(s,*s,controls);
+    }
+return (controls->printed);
 }
