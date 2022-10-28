@@ -6,17 +6,17 @@
 /*   By: otait-ta <otait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 10:03:52 by otait-ta          #+#    #+#             */
-/*   Updated: 2022/10/28 10:15:51 by otait-ta         ###   ########.fr       */
+/*   Updated: 2022/10/28 18:23:45 by otait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
 
-s_control* initialize_controls()
+t_control	*initialize_controls(void)
 {
-    s_control *controls;
+	t_control	*controls;
 
-    controls = (s_control *)malloc(sizeof(s_control*));
-    controls->printed = 0;
-    return (controls);
+	controls = (t_control *) malloc(sizeof(t_control *));
+	controls->printed = 0;
+	return (controls);
 }
